@@ -15,8 +15,8 @@ public class EmployeePayrollService {
     }
 
     private void updateSalary(String name, long salary) throws SQLException {
-        empPayRepo.updateSalary(name,salary);
-
+        //empPayRepo.updateSalary(name,salary);
+        empPayRepo.updateSalaryPrepareStmt(name,salary);
     }
 
     private void retrieveData () throws SQLException {

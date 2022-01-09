@@ -10,9 +10,14 @@ public class EmployeePayrollService {
     public static void main(String[] args) throws SQLException {
 
         EmployeePayrollService empService = new EmployeePayrollService();
-        empService.retrieveData();
+        //empService.retrieveData();
+       empService.updateSalary("Prashant",4000000);
     }
 
+    private void updateSalary(String name, long salary) throws SQLException {
+        empPayRepo.updateSalary(name,salary);
+
+    }
 
     private void retrieveData () throws SQLException {
             System.out.println(empPayRepo.retrieveData());

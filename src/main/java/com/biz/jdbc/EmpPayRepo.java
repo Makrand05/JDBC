@@ -44,5 +44,16 @@ public class EmpPayRepo {
 
     }
 
+    public void updateSalary(String name, long salary) throws SQLException {
+        try (Connection connection = getConnection()) {
+            Statement statement = connection.createStatement();
+            String sqlString = String.format("update employee_payroll_java set salary= %d where name='%s'", salary, name);
+            int result = statement.executeUpdate(sqlString);
+            if (result > 0) {
+                System.out.println("Record updated sucessfully...");
+            } else System.out.println("error");
+        }
+
+    }
 
 }

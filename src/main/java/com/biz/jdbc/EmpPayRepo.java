@@ -1,5 +1,7 @@
 package com.biz.jdbc;
 
+import org.joda.time.LocalDate;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,12 +70,32 @@ public class EmpPayRepo {
             if (result > 0) {
                 System.out.println("Record updated sucessfully...");
             } else System.out.println("error");
-        }
-
-
-        catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
+    }
+
+    public List<Employee> retrieveDataframeDate(LocalDate date) throws SQLException {
+        List<Employee> employeeList = new ArrayList<>();
+        try (Connection connection = getConnection()) {
+            String sqlQuery = "select * from employee_payroll_java where startDate between '"+date+"' and Date(now())";
+            Statement preparedStatement = connection.prepareStatement(sqlQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery(sqlQuery);
+            while (resultSet.next()) {
+                Employee info = new Employee();
+                info.setId(resultSet.getInt(1));
+                info.setName(resultSet.getString(2));
+                info.setGender(resultSet.getString(3).charAt(0));
+                info.setStartDate(resultSet.getDate(4).toLocalDate());
+
+                info.setAddress(resultSet.getString(5));
+                info.setPhone(resultSet.getInt(6));
+                employeeList.add(info);
+            }
+        }
+        return employeeList;
+
+
     }
 }

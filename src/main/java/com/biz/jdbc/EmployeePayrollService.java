@@ -1,7 +1,7 @@
 package com.biz.jdbc;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import org.joda.time.LocalDate;
+
 import java.sql.SQLException;
 
 public class EmployeePayrollService {
@@ -11,7 +11,13 @@ public class EmployeePayrollService {
 
         EmployeePayrollService empService = new EmployeePayrollService();
         //empService.retrieveData();
-       empService.updateSalary("Prashant",4000000);
+       //empService.updateSalary("Prashant",4000000);
+        empService.retrieveDataframeDate(LocalDate.parse("2010-01-01"));
+
+    }
+
+    private void retrieveDataframeDate(LocalDate date) throws SQLException {
+        System.out.println(empPayRepo.retrieveDataframeDate(date));
     }
 
     private void updateSalary(String name, long salary) throws SQLException {

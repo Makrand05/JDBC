@@ -8,13 +8,13 @@ import java.util.List;
 
 public class EmpPayRepo {
 
-    private Connection getConnection() {
+    public Connection getConnection() {
         Connection connection = null;
         try {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Driver loaded");
-            String JDBCURL = "jdbc:mysql://127.0.0.1:3308/address_book_service";
+            String JDBCURL = "jdbc:mysql://127.0.0.1:3308/payroll_service";
             connection = DriverManager.getConnection(JDBCURL, "root", "root");
 
         } catch (
@@ -78,7 +78,7 @@ public class EmpPayRepo {
     public List<Employee> retrieveDataframeDate(LocalDate date) throws SQLException {
         List<Employee> employeeList = new ArrayList<>();
         try (Connection connection = getConnection()) {
-            String sqlQuery = "select * from employee_payroll_java where startDate between '"+date+"' and Date(now())";
+            String sqlQuery = "select * from employee_payroll_java where startDate between '" + date + "' and Date(now())";
             Statement preparedStatement = connection.prepareStatement(sqlQuery);
 
             ResultSet resultSet = preparedStatement.executeQuery(sqlQuery);
@@ -88,7 +88,6 @@ public class EmpPayRepo {
                 info.setName(resultSet.getString(2));
                 info.setGender(resultSet.getString(3).charAt(0));
                 info.setStartDate(resultSet.getDate(4).toLocalDate());
-
                 info.setAddress(resultSet.getString(5));
                 info.setPhone(resultSet.getInt(6));
                 employeeList.add(info);
@@ -98,4 +97,27 @@ public class EmpPayRepo {
 
 
     }
+
+    public void findSumSalaryByGender() throws SQLException {
+
+        try (Connection connection = getConnection()) {
+            String sqlQuery = "select sum(net_pay),avg(net_pay),min(net_pay),max(net_pay) from payroll,employee where" +
+                    " employee.gender='M' and employee.id=payroll.emp_id";
+            Statement preparedStatement = connection.prepareStatement(sqlQuery);
+
+            ResultSet resultSet = preparedStatement.executeQuery(sqlQuery);
+            while (resultSet.next()) {
+                System.out.print("Total Salary of Male Employee : ");
+                System.out.println(resultSet.getInt(1));
+                System.out.print("Average Salary of Male Employee : ");
+                System.out.println(resultSet.getInt(2));
+                System.out.print("Minimum Salary of Male Employee : ");
+                System.out.println(resultSet.getInt(3));
+                System.out.print("Maximum Salary of Male Employee : ");
+                System.out.println(resultSet.getInt(4));
+
+            }
+        }
+    }
+
 }

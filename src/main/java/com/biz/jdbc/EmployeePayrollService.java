@@ -12,8 +12,14 @@ public class EmployeePayrollService {
         EmployeePayrollService empService = new EmployeePayrollService();
         //empService.retrieveData();
        //empService.updateSalary("Prashant",4000000);
-        empService.retrieveDataframeDate(LocalDate.parse("2010-01-01"));
+        //empService.retrieveDataframeDate(LocalDate.parse("2010-01-01"));
 
+        empService.findSumSalaryByGender();
+
+    }
+
+    private void findSumSalaryByGender() throws SQLException {
+        empPayRepo.findSumSalaryByGender();
     }
 
     private void retrieveDataframeDate(LocalDate date) throws SQLException {
